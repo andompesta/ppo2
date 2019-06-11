@@ -140,20 +140,18 @@ if __name__ == '__main__':
     # test_environment(args, img_trs)
     env = build_env(args)
 
-    # model param
+    # compute model hyper-parameter
     obs_size = reduce((lambda x, y: x * y), env.observation_space.shape)
     action_space = env.action_space.n
-    # used for sampling
 
-    # kwargs = dict(input_dim=obs_size,
-    #               hidden_dim=args.hidden_dim,
-    #               action_space=action_space)
-
+    # define model
     model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, input_dim=obs_size, hidden_dim=args.hidden_dim, action_space=action_space)
     model.to(device)
 
+    # setup training function
     train_fn, optm = step_setup(args, model, device)
 
+    # create memory collector for different episode. Used for batch training
     memory_collector = MemoryCollector(env, model, args.n_step, args.gamma, args.lam, device)
     ep_info_buf = deque(maxlen=100)
 
@@ -193,8 +191,8 @@ if __name__ == '__main__':
                 end = start + n_batch_train
                 mbinds = inds[start:end]
                 slices = (arr[mbinds] for arr in (obs, returns, dones, actions, values, neg_log_prb))
-                loss, pg_loss, value_loss, entropy, approx_kl, clip_frac = train_fn(*slices)
-                mb_loss_vals.append([loss, pg_loss, value_loss, entropy, approx_kl, clip_frac])
+                loss, pg_loss, value_loss, entropy, approx_kl = train_fn(*slices)
+                mb_loss_vals.append([loss, pg_loss, value_loss, entropy, approx_kl])
 
 
         # Feedforward --> get losses --> update
@@ -223,10 +221,8 @@ if __name__ == '__main__':
             plot_lines([ep_rew_mean, ep_len_mean], ['reward', 'length'], update, 'rewards')
 
 
-
-
-
         if update % args.save_every == 0 or update == 1:
+            # save model checkpoint
             helper.save_checkpoint({
                 'update': update,
                 'state_dict': model.state_dict(),

@@ -113,7 +113,7 @@ class PPO2(nn.Module):
 
 def ppo2(reset_param=True, **kwargs):
     """
-    ppo2 model based on the implementation proposed at https://github.com/openai/baselines/tree/master/baselines/ppo2.
+    ppo2 model b ased on the implementation proposed at https://github.com/openai/baselines/tree/master/baselines/ppo2.
     Paper: https://arxiv.org/abs/1707.06347
     :param reset_param: it True, randomly reset the initial parameters according using a (semi) orthogonal matrix.
     """

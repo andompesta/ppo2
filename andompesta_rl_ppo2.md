@@ -4,26 +4,23 @@ background-class: hub-background
 body-class: hub
 category: researchers
 <!-- Only change fields below -->
-title: <REQUIRED: short model name>
-summary: <REQUIRED: 1-2 sentences>
-image: <REQUIRED: best image to represent your model>
-author: <REQUIRED>
-tags: <REQUIRED: [tag1, tag2, ...]>
-github-link: <REQUIRED>
-featured_image_1: <OPTIONAL: use no-image if not applicable>
-featured_image_2: <OPTIONAL: use no-image if not applicable>
-accelerator: <OPTIONAL: Current supported values: "cuda", "cuda-optional">
+title: PPO2
+summary: A simple implementation of the PPO2 model. Hidden state is computed using 2 MLP with Tanh activation function 
+image: _.jpeg
+author: andompesta
+tags: [RL]
+github-link: https://github.com/andompesta/ppo2
+accelerator: "cuda"
 ---
-<!-- REQUIRED: provide a working script to demonstrate it works with torch.hub, example below -->
 ```python
 import torch
-torch.hub.load('pytorch/vision', 'resnet18', pretrained=True)
+model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, input_dim=obs_size, hidden_dim=hidden_dim, action_space=action_space)
 ```
 <!-- Walkthrough a small example of using your model. Ideally, less than 25 lines of code -->
 
-<!-- REQUIRED: detailed model description below, in markdown format, feel free to add new sections as necessary -->
 ### Model Description
 
 
-<!-- OPTIONAL: put link to reference papers -->
 ### References
+Original implementation: https://github.com/openai/baselines/tree/master/baselines/ppo2.
+Paper: https://arxiv.org/abs/1707.06347

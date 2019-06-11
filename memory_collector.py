@@ -25,6 +25,11 @@ class MemoryCollector(object):
 
 
     def eval_fn(self, obs):
+        """
+        evaluation function. Choose an action based on the current policy
+        :param obs: environment observation
+        :return:
+        """
         self.model.eval()
         with torch.set_grad_enabled(False):
             obs = torch.tensor(obs).float().to(self.device)
@@ -40,9 +45,9 @@ class MemoryCollector(object):
         ep_infos = []
         # For n in range number of steps
         for _ in range(self.n_step):
-            # Given observations, get action value and neglopacs
-            # We already have self.obs because Runner superclass run self.obs[:] = env.reset() on init
+            # compute step
             value_f, action, neg_log_prob = self.eval_fn(obs)
+            # values for training
             action = action.cpu().item()
             neg_log_prob = neg_log_prob.cpu().item()
             value_f = value_f.cpu().item()
@@ -71,6 +76,7 @@ class MemoryCollector(object):
         mb_neg_log_prob = np.asarray(mb_neg_log_prob, dtype=np.float32)
         mb_done = np.asarray(mb_done, dtype=np.bool)
 
+        # get value function for last action
         last_values, _, _ = self.eval_fn(obs)
         last_values = last_values.cpu().item()
 
@@ -88,5 +94,6 @@ class MemoryCollector(object):
             delta = mb_rewards[t] + self.gamma * next_values * next_non_terminal - mb_values[t]
             mb_advs[t] = lastgaelam = delta + self.gamma * self.lam * next_non_terminal * lastgaelam
 
-        mb_target_v = mb_advs + mb_values
-        return mb_obs, mb_target_v, mb_done, mb_actions, mb_values, mb_neg_log_prob, ep_infos
+        # compute value functions
+        mb_returns = mb_advs + mb_values
+        return mb_obs, mb_returns, mb_done, mb_actions, mb_values, mb_neg_log_prob, ep_infos
