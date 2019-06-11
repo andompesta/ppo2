@@ -60,7 +60,7 @@ def __pars_args__():
 
     parser.add_argument("--max_steps", type=int, default=100, help="Max step for an episode")
     parser.add_argument("--state_size", type=list, default=[56, 84], help="Frame size")
-    parser.add_argument("-uc", "--use_cuda", type=bool, default=True, help="Use cuda")
+    parser.add_argument("-uc", "--use_cuda", type=bool, default=False, help="Use cuda")
 
     return parser.parse_args()
 
@@ -145,11 +145,11 @@ if __name__ == '__main__':
     action_space = env.action_space.n
     # used for sampling
 
-    kwargs = dict(input_dim=obs_size,
-                  hidden_dim=args.hidden_dim,
-                  action_space=action_space)
+    # kwargs = dict(input_dim=obs_size,
+    #               hidden_dim=args.hidden_dim,
+    #               action_space=action_space)
 
-    model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, kwargs=kwargs)
+    model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, input_dim=obs_size, hidden_dim=args.hidden_dim, action_space=action_space)
     model.to(device)
 
     train_fn, optm = step_setup(args, model, device)
