@@ -24,7 +24,7 @@ def __pars_args__():
 
     parser.add_argument('-gam', '--gamma', type=float, default=0.95, help='discounting factor')
     parser.add_argument('-lam', '--lam', type=float, default=0.99, help='discounting factor')
-    parser.add_argument('-m_grad', '--max_grad_norm', type=float, default=0.5, help='discounting factor')
+    parser.add_argument('-m_grad', '--max_grad_norm', type=float, default=0.5, help='max norm of the gradients')
     parser.add_argument('-ent_coef', '--ent_coef', type=float, default=0.,
                         help='policy entropy coefficient in the optimization objective')
     parser.add_argument('-vf_coef', '--vf_coef', type=float, default=0.5,
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     action_space = env.action_space.n
 
     # define model
-    model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, input_dim=obs_size, hidden_dim=args.hidden_dim, action_space=action_space)
+    model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, input_dim=obs_size, hidden_dim=args.hidden_dim, action_space=action_space, dropout=0)
     model.to(device)
 
     # setup training function

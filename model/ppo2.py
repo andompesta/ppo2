@@ -7,25 +7,31 @@ __all__ = ['PPO2', 'ppo2']
 
 
 class PPO2(nn.Module):
-    def __init__(self, input_dim, hidden_dim,  action_space):
+    def __init__(self, input_dim, hidden_dim,  action_space, dropout):
         """
         ppo2 model
         :param input_dim: observation dimension
         :param hidden_dim: hidden state dimension
         :param action_space: action space
+        :param dropout: dropout probability
         """
         super(PPO2, self).__init__()
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.action_space = action_space
+        self.dropout = dropout
 
         self.network = nn.Sequential(
-            nn.Linear(input_dim, hidden_dim),
+            nn.Linear(self.input_dim, self.hidden_dim),
+            nn.Dropout(self.dropout),
             nn.Tanh(),
-            nn.Linear(hidden_dim, hidden_dim),
+            nn.Linear(self.hidden_dim, self.hidden_dim),
+            nn.Dropout(self.dropout),
             nn.Tanh()
         )
 
-
-        self.policy_head = nn.Linear(hidden_dim, action_space)
-        self.value_head = nn.Linear(hidden_dim, 1)
+        self.policy_head = nn.Linear(self.hidden_dim, self.action_space)
+        self.value_head = nn.Linear(self.hidden_dim, 1)
 
 
 
