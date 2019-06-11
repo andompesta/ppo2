@@ -47,7 +47,7 @@ def __pars_args__():
 
     parser.add_argument('--hidden_dim', type=int, default=64, help='hidden dimension')
 
-    parser.add_argument('-m_path', '--model_path', default='./model', help='Path to save the model')
+    parser.add_argument('-m_path', '--model_path', default='./trained_model', help='Path to save the model')
     parser.add_argument('-v_path', '--monitor_path', default='./monitor', help='Path to save monitor of agent')
     parser.add_argument('-v', '--version', default='0', help='Path to save monitor of agent')
 

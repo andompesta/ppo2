@@ -1,3 +1,3 @@
 dependencies = ['torch']
 
-from ppo2 import ppo2
+from model.ppo2 import ppo2
