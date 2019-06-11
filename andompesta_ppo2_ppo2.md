@@ -6,7 +6,7 @@ category: researchers
 <!-- Only change fields below -->
 title: PPO2
 summary: A simple implementation of the PPO2 model. Hidden state is computed using 2 MLP with Tanh activation function 
-image: _.jpeg
+image: ppo_model.png
 author: andompesta
 tags: [RL]
 github-link: https://github.com/andompesta/ppo2
