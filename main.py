@@ -149,7 +149,7 @@ if __name__ == '__main__':
                   hidden_dim=args.hidden_dim,
                   action_space=action_space)
 
-    model = torch.hub.load('andompesta/ppo2', 'ppo2', kwargs=kwargs, reset_param=True)
+    model = torch.hub.load('andompesta/ppo2', 'ppo2', reset_param=True, force_reload=True, kwargs=kwargs)
     model.to(device)
 
     train_fn, optm = step_setup(args, model, device)

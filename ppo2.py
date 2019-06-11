@@ -117,7 +117,7 @@ def ppo2(reset_param=True, **kwargs):
     Paper: https://arxiv.org/abs/1707.06347
     :param reset_param: it True, randomly reset the initial parameters according using a (semi) orthogonal matrix.
     """
-    model = PPO2(kwargs)
+    model = PPO2(**kwargs)
     if reset_param:
         model.reset_parameters()
 
