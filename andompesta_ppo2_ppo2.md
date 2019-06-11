@@ -8,7 +8,7 @@ title: PPO2
 summary: A simple implementation of the PPO2 model. Hidden state is computed using 2 MLP with Tanh activation function 
 image: ppo_model.png
 author: andompesta
-tags: [RL]
+tags: [rl]
 github-link: https://github.com/andompesta/ppo2
 accelerator: "cuda"
 
