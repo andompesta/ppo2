@@ -1,12 +1,9 @@
-import gym
 from gym.core import Wrapper
 from gym.wrappers import Monitor as VideoMonitor
 import time
-from glob import glob
 import csv
 import os.path as osp
 import json
-import torch
 
 class ResultsWriter(object):
     def __init__(self, filename, header='', extra_keys=()):
@@ -31,17 +28,11 @@ class ResultsWriter(object):
             self.f.flush()
 
 
-class ToTorchObs(Wrapper):
-    def __init__(self, env):
-        Wrapper.__init__(self, env=env)
-
-    def step(self, action):
-        ob, rew, done, info = self.env.step(action)
-        ob = torch.tensor(ob).float()
-        return  (ob, rew, done, info)
-
 
 class Reset(Wrapper):
+    """
+    gym wrapper to reset environment on done
+    """
     def __init__(self, env):
         Wrapper.__init__(self, env=env)
 
@@ -53,6 +44,12 @@ class Reset(Wrapper):
 
 
 class Monitor(Wrapper):
+    """
+    gym wrapper that monitor the agent performance for every episode.
+    episode_rewards: reward obtained during different episodes
+    episode_lengths: length of different episodes
+    episode_time: time of different episodes
+    """
     EXT = "monitor.csv"
     f = None
 

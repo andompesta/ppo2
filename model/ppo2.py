@@ -39,7 +39,7 @@ class PPO2(nn.Module):
         :return:
         """
 
-        if not isinstance(distribution, torch.distributions):
+        if not issubclass(distribution, torch.distributions.distribution.Distribution):
             raise NotImplementedError("distribution type have to be a valid torch.distribution class (logits of each action are used instead of probabilities).")
 
         latent_state = self.network(x)

@@ -90,10 +90,3 @@ class MemoryCollector(object):
 
         mb_target_v = mb_advs + mb_values
         return mb_obs, mb_target_v, mb_done, mb_actions, mb_values, mb_neg_log_prob, ep_infos
-
-def sf01(arr):
-    """
-    swap and then flatten axes 0 and 1
-    """
-    s = arr.shape
-    return arr.swapaxes(0, 1).reshape(s[0] * s[1], *s[2:])
